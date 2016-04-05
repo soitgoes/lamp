@@ -4,14 +4,15 @@
         DocumentRoot /var/www/html
         <Directory />
                 Options FollowSymLinks
-                AllowOverride None
+                AllowOverride All
         </Directory>
         <Directory /var/www/html>
                 Options Indexes FollowSymLinks MultiViews
                 # To make wordpress .htaccess work
-                AllowOverride FileInfo Options
+                AllowOverride All
                 Order allow,deny
                 allow from all
+                LogLevel alert rewrite:trace8
         </Directory>
 
         ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/

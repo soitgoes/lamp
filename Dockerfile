@@ -9,6 +9,7 @@ RUN apt-get update && \
 
 RUN a2enmod speling
 RUN	a2enmod headers
+RUN a2enmod rewrite
 RUN php5enmod imap
 
 # Add image configuration and scripts
@@ -29,7 +30,7 @@ RUN chmod 755 /*.sh
 
 # config to enable .htaccess
 ADD apache_default /etc/apache2/sites-available/000-default.conf
-RUN a2enmod rewrite
+
 
 # Configure /app folder with sample app
 RUN mkdir -p /app && rm -fr /var/www/html && ln -s /app /var/www/html
@@ -39,7 +40,7 @@ ENV PHP_UPLOAD_MAX_FILESIZE 10M
 ENV PHP_POST_MAX_SIZE 10M
 
 # Add volumes for MySQL 
-VOLUME  ["/etc/mysql", "/var/lib/mysql", "/app" , "/var/log"]
+VOLUME  ["/etc/mysql", "/var/lib/mysql", "/app", "/var/log/apache2/"]
 
 EXPOSE 80 3306
 CMD ["/run.sh"]
