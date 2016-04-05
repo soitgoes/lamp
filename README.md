@@ -1,62 +1,25 @@
-tutum-docker-lamp
+soitgoes-docker-lamp
 =================
-
-[![Deploy to Tutum](https://s.tutum.co/deploy-to-tutum.svg)](https://dashboard.tutum.co/stack/deploy/)
-
-Out-of-the-box LAMP image (PHP+MySQL)
 
 
 Usage
 -----
 
-To create the image `tutum/lamp`, execute the following command on the tutum-docker-lamp folder:
 
-	docker build -t tutum/lamp .
-
-You can now push your new image to the registry:
-
-	docker push tutum/lamp
 
 
 Running your LAMP docker image
 ------------------------------
 
-Start your image binding the external ports 80 and 3306 in all interfaces to your container:
+Start your image binding the external ports 80 and 3306 and map the apache root to your current directory
 
-	docker run -d -p 80:80 -p 3306:3306 tutum/lamp
+	docker run -d -p 80:80 -p 3306:3306 -v `pwd`:/app -e MYSQL_PASS="mypass" soitgoes/lamp
 
 Test your deployment:
 
-	curl http://localhost/
+	curl http://<docker ip>/
 
 Hello world!
-
-
-Loading your custom PHP application
------------------------------------
-
-In order to replace the "Hello World" application that comes bundled with this docker image,
-create a new `Dockerfile` in an empty folder with the following contents:
-
-	FROM tutum/lamp:latest
-	RUN rm -fr /app && git clone https://github.com/username/customapp.git /app
-	EXPOSE 80 3306
-	CMD ["/run.sh"]
-
-replacing `https://github.com/username/customapp.git` with your application's GIT repository.
-After that, build the new `Dockerfile`:
-
-	docker build -t username/my-lamp-app .
-
-And test it:
-
-	docker run -d -p 80:80 -p 3306:3306 username/my-lamp-app
-
-Test your deployment:
-
-	curl http://localhost/
-
-That's it!
 
 
 Connecting to the bundled MySQL server from within the container
@@ -107,7 +70,7 @@ Setting a specific password for the MySQL server admin account
 If you want to use a preset password instead of a random generated one, you can
 set the environment variable `MYSQL_PASS` to your specific password when running the container:
 
-	docker run -d -p 80:80 -p 3306:3306 -e MYSQL_PASS="mypass" tutum/lamp
+	docker run -d -p 80:80 -p 3306:3306 -e MYSQL_PASS="mypass" soitgoes/lamp
 
 You can now test your new admin password:
 
@@ -124,4 +87,4 @@ Disabling .htaccess
     RUN a2enmod rewrite
 
 
-**by http://www.tutum.co**
+**original by http://www.tutum.co**
