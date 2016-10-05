@@ -15,7 +15,8 @@ _word=$( [ ${MYSQL_PASS} ] && echo "preset" || echo "random" )
 echo "=> Creating MySQL admin user with ${_word} password"
 
 mysql -uroot -e "CREATE USER 'admin'@'%' IDENTIFIED BY '$PASS'"
-mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%' WITH GRANT OPTION"
+mysql -uroot -e "GRANT ALL ON *.* TO 'admin'@'%' WITH GRANT OPTION"
+mysql -uroot -e "FLUSH PRIVILEGES"
 
 # You can create a /mysql-setup.sh file to intialized the DB
 if [ -f /mysql-setup.sh ] ; then
